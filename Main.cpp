@@ -4,8 +4,6 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-
-
 int main(int argc, char*argv[])
 {
 	const int t1=6,t2=7;
@@ -27,7 +25,7 @@ int main(int argc, char*argv[])
 		cout << endl;
 	}
 
-
+//Inicia el juego
 	bool gane = false;
 	while(!gane){
 		int col = -1;
@@ -44,8 +42,8 @@ int main(int argc, char*argv[])
 					cout << "Jugada invalida" << endl;
 				}
 			}
-			int movimientoSexy;
-			int a,b;
+			int movimientoSexy = 0;
+			int movimientojugada = 0;
 		//Juga Turno 1
 			for (int i = 5; i >= 0; --i)
 			{
@@ -53,28 +51,41 @@ int main(int argc, char*argv[])
 				{
 					matri[i][col]=1;
 					i=-1;
-					a = i;
-					b = col;
-					movimientoSexy = matri[i][col];
+					movimientoSexy = i;
 				}
 			}
 
 			//Verificacion de Jugador 1;
-			int vertical = 1;
-			int horizontal = 1;
-			int diagonal1 = 1;
-			int diagonal2 = 1;
-			for (int i = a + 1; matri[i][b] == movimientoSexy && i <= 5; i++){
-				vertical++;
-			}
-			for (int i = a -1; matri[i][b] == movimientoSexy && i >= 0; i--){
-				vertical++;
-			}
-			if (vertical >= 4)
+			//Diagonales
+			for (int i = 0; i < 4; ++i)
 			{
-				cout << "Gana jugador 1." << endl;
-				gane = true;
+				int x = movimientoSexy - i, y = movimientoSexy + i;
+				if (x > -1 && x < 6 && y > -1 && y <7)
+				{
+					if (matri[x][y]==1)
+					{
+						++movimientojugada;
+					}
+					else if (matri[x-1][y+1] == 0 || matri[x-1][y+1] == 2)
+					{
+						i=5;
+						int pos = x, pos2 = y;
+						movimientojugada = 0;
+						for (int j = 0; j < 4; ++j)
+						{
+							int pos = x+j, pos2 = y - j;
+							if (pos > -1 && pos < 6 && pos2 > -1 && pos2 < 7)
+							{
+								if (matri[pos][pos2] == 1)
+								{
+									++movimientojugada;
+								}
+							}
+						}
+					}
+				}
 			}
+			//
 
 		//Imprime Turno 1
 			for (int i = 0; i < 7; ++i)
@@ -115,6 +126,37 @@ int main(int argc, char*argv[])
 				}
 			}
 
+			//Verificacion de Jugador 2;
+			//Diagonales
+			for (int i = 0; i < 4; ++i)
+			{
+				int x = movimientoSexy - i, y = movimientoSexy + i;
+				if (x > -1 && x < 6 && y > -1 && y <7)
+				{
+					if (matri[x][y]==2)
+					{
+						++movimientojugada;
+					}
+					else if (matri[x-1][y+1] == 0 || matri[x-1][y+1] == 1)
+					{
+						i=5;
+						int pos = x, pos2 = y;
+						movimientojugada = 0;
+						for (int j = 0; j < 4; ++j)
+						{
+							int pos = x+j, pos2 = y - j;
+							if (pos > -1 && pos < 6 && pos2 > -1 && pos2 < 7)
+							{
+								if (matri[pos][pos2] == 2)
+								{
+									++movimientojugada;
+								}
+							}
+						}
+					}
+				}
+			}
+
 			//Imprime Jugada del 2
 			for (int i = 0; i < 7; ++i)
 			{
@@ -138,4 +180,3 @@ int main(int argc, char*argv[])
 	
 	return 0;
 }
-
